@@ -1,4 +1,4 @@
-const inquirer = require('inquirer');
+const inquirer = require('inquirer'); // Import inquirer for user prompts
 const {
   viewAllDepartments,
   viewAllRoles,
@@ -7,9 +7,11 @@ const {
   addRole,
   addEmployee,
   updateEmployeeRole,
-} = require('./lib/queries');
+} = require('./lib/queries'); // Import functions for database operations
 
+// Function to display the main menu and handle user selections
 const mainMenu = async () => {
+  // Prompt user with a list of actions
   const { action } = await inquirer.prompt({
     type: 'list',
     name: 'action',
@@ -26,15 +28,16 @@ const mainMenu = async () => {
     ],
   });
 
+  // Handle user's choice
   switch (action) {
     case 'View all departments':
-      await viewAllDepartments();
+      await viewAllDepartments(); // View all departments
       break;
     case 'View all roles':
-      await viewAllRoles();
+      await viewAllRoles(); // View all roles
       break;
     case 'View all employees':
-      await viewAllEmployees();
+      await viewAllEmployees(); // View all employees
       break;
     case 'Add a department':
       const { name } = await inquirer.prompt({
@@ -42,7 +45,7 @@ const mainMenu = async () => {
         name: 'name',
         message: 'Enter the name of the department:',
       });
-      await addDepartment(name);
+      await addDepartment(name); // Add a new department
       break;
     case 'Add a role':
       const roleAnswers = await inquirer.prompt([
@@ -50,7 +53,7 @@ const mainMenu = async () => {
         { type: 'input', name: 'salary', message: 'Enter the salary of the role:' },
         { type: 'input', name: 'departmentId', message: 'Enter the department ID for the role:' },
       ]);
-      await addRole(roleAnswers.title, roleAnswers.salary, roleAnswers.departmentId);
+      await addRole(roleAnswers.title, roleAnswers.salary, roleAnswers.departmentId); // Add a new role
       break;
     case 'Add an employee':
       const employeeAnswers = await inquirer.prompt([
@@ -59,21 +62,21 @@ const mainMenu = async () => {
         { type: 'input', name: 'roleId', message: 'Enter the role ID for the employee:' },
         { type: 'input', name: 'managerId', message: 'Enter the manager ID for the employee (null if no manager):' },
       ]);
-      await addEmployee(employeeAnswers.firstName, employeeAnswers.lastName, employeeAnswers.roleId, employeeAnswers.managerId || null);
+      await addEmployee(employeeAnswers.firstName, employeeAnswers.lastName, employeeAnswers.roleId, employeeAnswers.managerId || null); // Add a new employee
       break;
     case 'Update an employee role':
       const updateAnswers = await inquirer.prompt([
         { type: 'input', name: 'employeeId', message: 'Enter the ID of the employee to update:' },
         { type: 'input', name: 'roleId', message: 'Enter the new role ID for the employee:' },
       ]);
-      await updateEmployeeRole(updateAnswers.employeeId, updateAnswers.roleId);
+      await updateEmployeeRole(updateAnswers.employeeId, updateAnswers.roleId); // Update an employee's role
       break;
     case 'Exit':
-      process.exit();
+      process.exit(); 
       break;
   }
 
-  mainMenu();
+  mainMenu(); //  call mainMenu to display the menu again after an action
 };
 
-mainMenu();
+mainMenu(); // Initial call to display the main menu
